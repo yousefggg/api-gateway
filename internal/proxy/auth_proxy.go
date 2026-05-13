@@ -24,7 +24,6 @@ func NewAuthProxy(target string) (*AuthProxy, error) {
 }
 
 func (p *AuthProxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	// чистим prefix /api/auth
 	r.URL.Path = strings.TrimPrefix(r.URL.Path, "/api/auth")
 
 	p.proxy.ServeHTTP(w, r)

@@ -29,16 +29,12 @@ func NewRouter(
 func (r *Router) Init() http.Handler {
 	muxRouter := mux.NewRouter()
 
-	// AUTH SERVICE
 	muxRouter.PathPrefix("/api/auth/").HandlerFunc(r.authProxy.ServeHTTP)
 
-	// CHAT SERVICE
 	muxRouter.PathPrefix("/api/chat/").HandlerFunc(r.chatProxy.ServeHTTP)
 
-	// TOURS SERVICE
 	muxRouter.PathPrefix("/api/tours/").HandlerFunc(r.tourProxy.ServeHTTP)
 
-	// WEBSOCKET (chat)
 	muxRouter.PathPrefix("/ws").HandlerFunc(r.chatProxy.ServeWebSocket)
 
 	return muxRouter

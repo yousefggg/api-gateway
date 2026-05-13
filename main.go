@@ -13,7 +13,6 @@ import (
 
 func main() {
 
-	// 1. ENV LOAD
 	_ = godotenv.Load()
 
 	cfg, err := config.LoadConfig()
@@ -21,7 +20,6 @@ func main() {
 		log.Fatalf("config load error: %v", err)
 	}
 
-	// 2. PROXIES
 	authProxy, err := proxy.NewAuthProxy(cfg.AuthServiceURL)
 	if err != nil {
 		log.Fatalf("auth proxy error: %v", err)
@@ -37,10 +35,8 @@ func main() {
 		log.Fatalf("tour proxy error: %v", err)
 	}
 
-	// 3. ROUTER
 	r := router.NewRouter(authProxy, chatProxy, tourProxy)
 
-	// 4. SERVER
 	server := transport.NewServer(
 		":"+cfg.Port,
 		r,
@@ -49,7 +45,6 @@ func main() {
 
 	log.Println("API Gateway started on port", cfg.Port)
 
-	// 5. RUN
 	if err := server.Run(); err != nil {
 		log.Fatalf("server error: %v", err)
 	}

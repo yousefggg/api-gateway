@@ -37,7 +37,6 @@ func LoadConfig() (*Config, error) {
 		LogLevel:  getEnv("LOG_LEVEL", "debug"),
 	}
 
-	// validation (жёсткая, чтобы не ловить runtime баги)
 	if cfg.AuthServiceURL == "" {
 		return nil, fmt.Errorf("AUTH_SERVICE_URL is required")
 	}
@@ -54,7 +53,6 @@ func LoadConfig() (*Config, error) {
 		return nil, fmt.Errorf("JWT_SECRET is required")
 	}
 
-	// JWT TTL
 	jwtTTL := getEnv("JWT_TTL", "24h")
 	parsedTTL, err := time.ParseDuration(jwtTTL)
 	if err != nil {
@@ -62,7 +60,6 @@ func LoadConfig() (*Config, error) {
 	}
 	cfg.JWTTTL = parsedTTL
 
-	// HTTP timeout
 	timeoutMs := getEnv("HTTP_TIMEOUT_MS", "5000")
 	ms, err := strconv.Atoi(timeoutMs)
 	if err != nil {
